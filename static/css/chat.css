@@ -1,0 +1,10 @@
+.msgInput {
+	display: flex;
+}
+
+.msgInput input {
+	height: 20px;
+}
+
+.msgInput button {
+}

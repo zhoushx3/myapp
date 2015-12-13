@@ -1,18 +1,23 @@
 var path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
 	entry: [
-		'webpack/hot/dev-server',
 		'webpack-dev-server/client?http://localhost:8080',
-		path.resolve(__dirname, 'static/app.js'),
+		'webpack/hot/dev-server',
+		path.resolve(__dirname, 'static/js/app.js'),
 	],
+	// externals: {
+	// 	'jquery': 'jQuery'
+	// },//在Index.html中需要加入script引用
 	resolve: {
 		alias: {
 			// 'react': './node_modules/react'//会使用压缩过的
 		}
 	},
 	output: {
-		path: path.resolve(__dirname, 'build'),
+		path: __dirname,
+		publicPath: '/static/',
 		filename: 'bundle.js'
 	},
 	module: {
@@ -31,6 +36,15 @@ module.exports = {
 		}, {
 			test: /\.(png|jpg)$/,
 			loader: 'url?limit=25000'
+		}, {
+			test: require.resolve('jquery'),
+			loader: 'expose?jQuery'
 		}]
-	}
+	},
+	plugins: [
+		// new webpack.DefinePlugin({
+		// 	'process.env.NODE_ENV': 'development'
+		// }),
+		new webpack.HotModuleReplacementPlugin()
+	]
 }
